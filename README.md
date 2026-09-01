@@ -8,36 +8,36 @@ Sistema de registro para emprendedores participantes en la Feria de Experiencias
 - **Panel admin completo**: Dashboard, gestión de emprendedores, usuarios y exportación
 - **Exportar Excel**: Descarga reportes en formato Excel
 - **Responsive**: Se adapta a dispositivos móviles
+- **Todo en un solo archivo**: Fácil de mantener y desplegar
 
 ## Estructura
 
 ```
 fexp-admin/
-├── index.html              # Formulario de registro público
-├── admin.html              # Panel administrativo completo
+├── index.html              # Archivo principal (formulario + admin)
 ├── css/
 │   └── styles.css          # Estilos
 ├── js/
-│   ├── app.js              # Lógica del formulario
-│   ├── admin.js            # Lógica del admin
+│   ├── app.js              # Lógica del formulario y navegación
+│   ├── admin.js            # Lógica del panel admin
 │   └── supabase-client.js  # Conexión a datos
 └── README.md
 ```
 
 ## Inicio Rápido
 
-### 1. Abrir el formulario público
+### Abrir el sistema
 
 Simplemente abre `index.html` en tu navegador.
 
-### 2. Acceder al panel admin
+### Acceder al panel admin
 
-1. Abre `admin.html`
+1. Haz clic en **"Panel de Administración"** en el footer
 2. Credenciales por defecto:
    - **Correo**: admin@fexp.com
    - **Contraseña**: admin123
 
-### 3. Cambiar contraseña admin
+### Cambiar contraseña admin
 
 Edita `js/admin.js` y busca la función `getInitialUsers()` para modificar las credenciales iniciales.
 
@@ -56,7 +56,7 @@ Edita `js/admin.js` y busca la función `getInitialUsers()` para modificar las c
 - Agregar nuevos usuarios (nombre, correo, contraseña, rol)
 - Editar usuarios existentes
 - Eliminar usuarios (excepto admin principal)
-- Roles: admin (acceso total), evaluador (solo lectura)
+- Roles: admin (acceso total)
 
 ### Exportar
 - Descargar todos los emprendedores
@@ -64,9 +64,25 @@ Edita `js/admin.js` y busca la función `getInitialUsers()` para modificar las c
 - Descargar solo pendientes
 - Descargar solo rechazados
 
+## Flujo de Navegación
+
+```
+[Página carga]
+    ↓
+[Formulario Registro]
+    ↓
+[Footer: "Panel Admin"]
+    ↓
+[Login Admin]
+    ↓
+[Dashboard Admin]
+    ↓
+[Cerrar Sesión] → Vuelve al Formulario
+```
+
 ## Conectar con Supabase
 
-### Paso 1: Crear tabla en Supabase
+### Paso 1: Crear tablas en Supabase
 
 ```sql
 CREATE TABLE emprendedores (
@@ -95,7 +111,7 @@ CREATE TABLE usuarios (
     nombre TEXT,
     email TEXT UNIQUE,
     password TEXT,
-    rol TEXT DEFAULT 'evaluador'
+    rol TEXT DEFAULT 'admin'
 );
 ```
 
@@ -106,14 +122,6 @@ Edita `js/supabase-client.js`:
 ```javascript
 const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
 const SUPABASE_ANON_KEY = 'tu-anon-key-aqui';
-```
-
-### Paso 3: Agregar SDK de Supabase
-
-Agrega antes de `</body>` en ambos HTML:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 ```
 
 ## Desplegar en GitHub Pages
@@ -129,3 +137,4 @@ Agrega antes de `</body>` en ambos HTML:
 - Una vez conectado Supabase, los datos se sincronizarán automáticamente
 - El formulario valida todos los campos obligatorios
 - El usuario admin principal (id: 1) no se puede eliminar
+- Al cerrar sesión del admin, se vuelve al formulario de registro
