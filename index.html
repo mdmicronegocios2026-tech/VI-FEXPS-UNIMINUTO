@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VI FEXPS - Registro de Emprendimientos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>VI FEXPS</h1>
+            <p>Feria de Experiencias de Proyección Social</p>
+            <p class="subtitle">Registro de Emprendimientos y Micronegocios</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <form id="registrationForm" class="form">
+            <!-- Autorización -->
+            <section class="form-section">
+                <h2>Autorización</h2>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="autorizacion" name="autorizacion" required>
+                        <span>Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012. UNIMINUTO ha informado sobre las finalidades del tratamiento de datos.</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Datos de la Actividad -->
+            <section class="form-section">
+                <h2>Datos de la Actividad</h2>
+                <div class="form-group">
+                    <label for="actividad">Seleccione la actividad en la que desea realizar su preinscripción: <span class="required">*</span></label>
+                    <select id="actividad" name="actividad" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="Vitrina Comercial">Vitrina Comercial: VI FEXPS - Feria de Experiencias de Proyección Social</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo_participante">Tipo de participante: <span class="required">*</span></label>
+                    <select id="tipo_participante" name="tipo_participante" required>
+                        <option value="">Seleccione una categoría</option>
+                        <option value="Emprendedor UNIMINUTO">Emprendedor UNIMINUTO</option>
+                        <option value="Micronegocio registrado">Micronegocio registrado</option>
+                        <option value="Emprendedor externo">Emprendedor externo</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Datos Personales -->
+            <section class="form-section">
+                <h2>Datos Personales</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombres">Nombres y apellidos del emprendedor: <span class="required">*</span></label>
+                        <input type="text" id="nombres" name="nombres" required placeholder="Ingrese sus nombres completos">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="documento">Número de documento: <span class="required">*</span></label>
+                        <input type="text" id="documento" name="documento" required placeholder="Sin puntos ni espacios">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="correo">Correo electrónico: <span class="required">*</span></label>
+                        <input type="email" id="correo" name="correo" required placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="form-group half">
+                        <label for="celular">Número de celular: <span class="required">*</span></label>
+                        <input type="tel" id="celular" name="celular" required placeholder="3XX XXX XXXX">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Datos del Emprendimiento -->
+            <section class="form-section">
+                <h2>Datos del Emprendimiento</h2>
+                <div class="form-group">
+                    <label for="nombre_emprendimiento">Nombre del Emprendimiento / Micronegocio: <span class="required">*</span></label>
+                    <input type="text" id="nombre_emprendimiento" name="nombre_emprendimiento" required placeholder="Nombre oficial o comercial">
+                </div>
+
+                <div class="form-group">
+                    <label for="linea_negocio">¿En qué línea se encuentra el negocio? <span class="required">*</span></label>
+                    <select id="linea_negocio" name="linea_negocio" required>
+                        <option value="">Seleccione la categoría</option>
+                        <option value="Alimentos y Bebidas">Alimentos y Bebidas</option>
+                        <option value="Artesanías y manualidades">Artesanías y manualidades</option>
+                        <option value="Belleza y cuidado personal">Belleza y cuidado personal</option>
+                        <option value="Educación y capacitación">Educación y capacitación</option>
+                        <option value="Tecnología y servicios digitales">Tecnología y servicios digitales</option>
+                        <option value="Salud y bienestar">Salud y bienestar</option>
+                        <option value="Moda y vestuario">Moda y vestuario</option>
+                        <option value="Hogar y decoración">Hogar y decoración</option>
+                        <option value="Servicios profesionales">Servicios profesionales</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="redes_sociales">Mencione sus redes sociales o página web:</label>
+                    <input type="text" id="redes_sociales" name="redes_sociales" placeholder="@instagram, facebook.com/tienda, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="acompanante">Nombres y apellidos del acompañante:</label>
+                    <input type="text" id="acompanante" name="acompanante" placeholder="Se destinarán 2 sillas por stand">
+                </div>
+            </section>
+
+            <!-- Detalles de Participación -->
+            <section class="form-section">
+                <h2>Detalles de Participación</h2>
+                <div class="form-group">
+                    <label>¿Con cuáles de los siguientes elementos cuenta para la Vitrina Comercial? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="elementos" value="Mesa">
+                            <span>Mesa</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="elementos" value="Sillas">
+                            <span>Sillas</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="elementos" value="Vitrina/Mostrador">
+                            <span>Vitrina/Mostrador</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="elementos" value="Carpa/Toldo">
+                            <span>Carpa/Toldo</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="elementos" value="Banner/Publicidad">
+                            <span>Banner/Publicidad</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="elementos" value="Ninguno">
+                            <span>Ninguno</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productos">Mencione lista de productos o servicios que ofrecerá en la Vitrina Comercial: <span class="required">*</span></label>
+                    <textarea id="productos" name="productos" rows="4" required placeholder="Describa los productos o servicios que ofrecerá"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="requerimientos">¿Tiene algún requerimiento específico para participar?</label>
+                    <textarea id="requerimientos" name="requerimientos" rows="3" placeholder="Punto eléctrico, elementos especiales, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Estaría dispuesto a asistir a una jornada de preparación previa a la feria? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="jornada_preparacion" value="Sí" required>
+                            <span>Sí</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="jornada_preparacion" value="No">
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enviar Registro</button>
+                <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
+            </div>
+        </form>
+
+        <!-- Mensaje de éxito -->
+        <div id="successMessage" class="success-message hidden">
+            <div class="success-content">
+                <h2>¡Registro Enviado!</h2>
+                <p>Su registro ha sido enviado exitosamente.</p>
+                <p>Recibirá un correo de confirmación con los detalles de su participación.</p>
+                <button onclick="location.reload()" class="btn btn-primary">Enviar otro registro</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>VI FEXPS - Feria de Experiencias de Proyección Social</p>
+        <p>Universidad Minuto de Dios</p>
+        <p style="margin-top: 1rem;"><a href="admin.html" style="color: var(--primary-color);">Panel de Administración</a></p>
+    </footer>
+
+    <script src="js/supabase-client.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
