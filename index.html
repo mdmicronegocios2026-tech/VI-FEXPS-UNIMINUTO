@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VI FEXPS - Registro de Emprendimientos</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -192,6 +192,14 @@
                     <button onclick="location.reload()" class="btn btn-primary">Enviar otro registro</button>
                 </div>
             </div>
+
+            <!-- Mensaje de formulario suspendido (MODIFICADO AQUÍ) -->
+            <div id="suspendedMessage" class="success-message hidden">
+                <div class="success-content">
+                    <h2>Aviso</h2>
+                    <p style="font-size: 1.2rem; font-weight: 500;">Ya no es posible responder el formulario de registro</p>
+                </div>
+            </div>
         </main>
 
         <footer class="footer">
@@ -218,7 +226,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary" id="login-btn">Iniciar Sesión</button>
             </form>
-            <p class="demo-hint">Credenciales: admin@fexp.com / admin123</p>
             <button class="btn btn-secondary" onclick="showRegistrationForm()" style="margin-top:1rem;width:100%">Volver al Formulario</button>
         </div>
     </div>
@@ -248,6 +255,12 @@
             <!-- DASHBOARD -->
             <section id="view-dashboard" class="view active">
                 <h2>Panel de Control</h2>
+                <div class="form-toggle-container">
+                    <button id="toggle-form-btn" class="btn btn-warning" onclick="toggleFormStatus()">
+                        Cargando...
+                    </button>
+                    <span id="form-status-text" class="form-status-text"></span>
+                </div>
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value" id="stat-total">0</div>
@@ -437,8 +450,8 @@
         </div>
     </div>
 
-    <script src="js/supabase-client.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/admin.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="app.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

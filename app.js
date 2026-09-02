@@ -2,8 +2,6 @@
 // VI FEXPS - FORMULARIO PÚBLICO
 // ============================================
 
-// ==================== NAVEGACIÓN ENTRE VISTAS ====================
-
 function showAdminLogin() {
     document.getElementById('registration-section').style.display = 'none';
     document.getElementById('admin-login-screen').style.display = 'flex';
@@ -17,6 +15,7 @@ function showRegistrationForm() {
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
     document.getElementById('login-error').style.display = 'none';
+    checkFormSuspension(); // Re-evaluar por si se activó/desactivó
 }
 
 function showAdminDashboard() {
@@ -25,12 +24,26 @@ function showAdminDashboard() {
     document.getElementById('admin-main-screen').style.display = 'block';
 }
 
-// ==================== INICIALIZACIÓN ====================
+let formSuspendedPublic = false;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     initSupabase();
     initForm();
+    await checkFormSuspension();
 });
+
+async function checkFormSuspension() {
+    const status = await getFormStatus();
+    formSuspendedPublic = status.suspended;
+
+    if (formSuspendedPublic) {
+        document.getElementById('registrationForm').style.display = 'none';
+        document.getElementById('suspendedMessage').classList.remove('hidden');
+    } else {
+        document.getElementById('registrationForm').style.display = 'block';
+        document.getElementById('suspendedMessage').classList.add('hidden');
+    }
+}
 
 function initForm() {
     const form = document.getElementById('registrationForm');
@@ -38,7 +51,6 @@ function initForm() {
     
     form.addEventListener('submit', handleSubmit);
     
-    // Validación en tiempo real
     const requiredFields = form.querySelectorAll('[required]');
     requiredFields.forEach(field => {
         field.addEventListener('blur', () => validateField(field));
@@ -46,44 +58,27 @@ function initForm() {
     });
 }
 
-// ==================== ENVÍO DEL FORMULARIO ====================
-
 async function handleSubmit(e) {
     e.preventDefault();
-    
+    if (formSuspendedPublic) {
+        alert('El formulario de registro se encuentra suspendido. Intente más tarde.');
+        return;
+    }
     const form = e.target;
     const submitBtn = form.querySelector('button[type="submit"]');
     
-    // Validar todos los campos
-    if (!validateForm(form)) {
-        return;
-    }
+    if (!validateForm(form)) return;
+    if (!validateCheckboxes(form)) return;
+    if (!validateRadios(form)) return;
     
-    // Verificar checkboxes requeridos
-    if (!validateCheckboxes(form)) {
-        return;
-    }
-    
-    // Verificar radio buttons requeridos
-    if (!validateRadios(form)) {
-        return;
-    }
-    
-    // Recopilar datos
     const formData = collectFormData(form);
-    
-    // Mostrar estado de carga
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
     
     try {
-        const result = addEmprendedor(formData);
-        
-        if (result.success) {
-            showSuccess();
-        } else {
-            showError('Error al enviar el registro. Intente nuevamente.');
-        }
+        const result = await addEmprendedor(formData);
+        if (result.success) showSuccess();
+        else showError('Error al enviar el registro. Intente nuevamente.');
     } catch (error) {
         console.error('Error:', error);
         showError('Error al enviar el registro. Intente nuevamente.');
@@ -93,18 +88,11 @@ async function handleSubmit(e) {
     }
 }
 
-// ==================== VALIDACIONES ====================
-
 function validateForm(form) {
     let isValid = true;
-    const requiredFields = form.querySelectorAll('[required]');
-    
-    requiredFields.forEach(field => {
-        if (!validateField(field)) {
-            isValid = false;
-        }
+    form.querySelectorAll('[required]').forEach(field => {
+        if (!validateField(field)) isValid = false;
     });
-    
     return isValid;
 }
 
@@ -114,145 +102,93 @@ function validateField(field) {
     let message = '';
     
     if (field.required && !value) {
-        isValid = false;
-        message = 'Este campo es obligatorio';
+        isValid = false; message = 'Este campo es obligatorio';
     } else if (field.type === 'email' && value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-            isValid = false;
-            message = 'Ingrese un correo electrónico válido';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            isValid = false; message = 'Ingrese un correo electrónico válido';
         }
     }
     
-    if (!isValid) {
-        showFieldError(field, message);
-    } else {
-        clearFieldError(field);
-    }
-    
+    if (!isValid) showFieldError(field, message);
+    else clearFieldError(field);
     return isValid;
 }
 
 function validateCheckboxes(form) {
-    const checkboxGroups = {};
-    
-    form.querySelectorAll('input[type="checkbox"][name="elementos"]').forEach(cb => {
-        if (!checkboxGroups['elementos']) {
-            checkboxGroups['elementos'] = [];
-        }
-        checkboxGroups['elementos'].push(cb);
-    });
-    
-    if (checkboxGroups['elementos']) {
-        const anyChecked = checkboxGroups['elementos'].some(cb => cb.checked);
-        if (!anyChecked) {
-            showGroupError('Seleccione al menos un elemento');
-            return false;
-        }
-        clearGroupError('elementos');
+    const cbs = Array.from(form.querySelectorAll('input[type="checkbox"][name="elementos"]'));
+    if (cbs.length > 0 && !cbs.some(cb => cb.checked)) {
+        showGroupError('Seleccione al menos un elemento');
+        return false;
     }
-    
+    clearGroupError('elementos');
     return true;
 }
 
 function validateRadios(form) {
-    const radioName = 'jornada_preparacion';
-    const radios = form.querySelectorAll(`input[name="${radioName}"]`);
-    const anyChecked = Array.from(radios).some(r => r.checked);
-    
-    if (!anyChecked) {
+    const radios = Array.from(form.querySelectorAll('input[name="jornada_preparacion"]'));
+    if (radios.length > 0 && !radios.some(r => r.checked)) {
         showGroupError('Seleccione si está dispuesto a asistir a la jornada de preparación');
         return false;
     }
-    
-    clearGroupError(radioName);
+    clearGroupError('jornada_preparacion');
     return true;
 }
 
 function collectFormData(form) {
-    const data = {};
-    
-    // Autorización
-    data.autorizacion = form.querySelector('#autorizacion').checked;
-    
-    // Campos de texto y selects
-    const fields = ['actividad', 'tipo_participante', 'nombres', 'documento', 
-                    'correo', 'celular', 'nombre_emprendimiento', 'linea_negocio', 
-                    'redes_sociales', 'acompanante', 'productos', 'requerimientos'];
-    
-    fields.forEach(field => {
-        const element = form.querySelector(`#${field}`);
-        data[field] = element ? element.value.trim() : '';
+    const data = { autorizacion: form.querySelector('#autorizacion').checked };
+    const fields = ['actividad', 'tipo_participante', 'nombres', 'documento', 'correo', 'celular', 'nombre_emprendimiento', 'linea_negocio', 'redes_sociales', 'acompanante', 'productos', 'requerimientos'];
+    fields.forEach(f => {
+        const el = form.querySelector(`#${f}`);
+        data[f] = el ? el.value.trim() : '';
     });
-    
-    // Checkboxes de elementos
     const elementos = [];
-    form.querySelectorAll('input[name="elementos"]:checked').forEach(cb => {
-        elementos.push(cb.value);
-    });
+    form.querySelectorAll('input[name="elementos"]:checked').forEach(cb => elementos.push(cb.value));
     data.elementos = elementos.join(', ');
-    
-    // Radio button
     const jornada = form.querySelector('input[name="jornada_preparacion"]:checked');
     data.jornada_preparacion = jornada ? jornada.value : '';
-    
     return data;
 }
-
-// ==================== ERRORES Y ÉXITO ====================
 
 function showFieldError(field, message) {
     clearFieldError(field);
     field.style.borderColor = '#e74c3c';
-    
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'field-error';
-    errorDiv.style.color = '#e74c3c';
-    errorDiv.style.fontSize = '0.875rem';
-    errorDiv.style.marginTop = '0.25rem';
-    errorDiv.textContent = message;
-    
-    field.parentNode.appendChild(errorDiv);
+    const err = document.createElement('div');
+    err.className = 'field-error';
+    err.style.color = '#e74c3c';
+    err.style.fontSize = '0.875rem';
+    err.style.marginTop = '0.25rem';
+    err.textContent = message;
+    field.parentNode.appendChild(err);
 }
 
 function clearFieldError(field) {
     field.style.borderColor = '';
-    const error = field.parentNode.querySelector('.field-error');
-    if (error) error.remove();
+    const err = field.parentNode.querySelector('.field-error');
+    if (err) err.remove();
 }
 
 function showGroupError(message) {
     clearGroupError();
-    
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'group-error';
-    errorDiv.style.color = '#e74c3c';
-    errorDiv.style.fontSize = '0.875rem';
-    errorDiv.style.marginTop = '0.5rem';
-    errorDiv.textContent = message;
-    
+    const err = document.createElement('div');
+    err.className = 'group-error';
+    err.style.color = '#e74c3c';
+    err.style.fontSize = '0.875rem';
+    err.style.marginTop = '0.5rem';
+    err.textContent = message;
     const checkboxes = document.querySelector('.checkbox-group');
-    if (checkboxes) {
-        checkboxes.parentNode.appendChild(errorDiv);
-    }
+    if (checkboxes) checkboxes.parentNode.appendChild(err);
 }
 
 function clearGroupError() {
-    const errors = document.querySelectorAll('.group-error');
-    errors.forEach(e => e.remove());
+    document.querySelectorAll('.group-error').forEach(e => e.remove());
 }
 
-function showError(message) {
-    alert(message);
-}
+function showError(message) { alert(message); }
 
 function showSuccess() {
     document.getElementById('registrationForm').classList.add('hidden');
     document.getElementById('successMessage').classList.remove('hidden');
-    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function clearError(field) {
-    clearFieldError(field);
-}
+function clearError(field) { clearFieldError(field); }
