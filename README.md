@@ -1,1 +1,0 @@
-# VI FEXPS - Plataforma de Registro de Emprendimientos\n\nSistema de registro para emprendedores.
