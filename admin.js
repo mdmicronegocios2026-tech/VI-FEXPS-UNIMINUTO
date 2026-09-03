@@ -119,7 +119,7 @@ async function updateDashboard() {
     document.getElementById('stat-aprobados').textContent = stats.aprobados;
     document.getElementById('stat-rechazados').textContent = stats.rechazados;
     
-    const recentEmprendedores = [...emprendedores].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5);
+    const recentEmprendedores = [...emprendedores].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     const tbody = document.getElementById('dashboard-table-body');
     
     if (recentEmprendedores.length === 0) {
@@ -159,6 +159,7 @@ function renderEmprendedores() {
             <td>
                 <div class="table-actions">
                     <button class="btn btn-primary" onclick="viewDetails(${emp.id})">👁</button>
+                    <button class="btn btn-danger" onclick="handleDeleteEmprendedor(${emp.id})">🗑</button>
                 </div>
             </td>
         </tr>
@@ -192,10 +193,9 @@ function toggleStatusDropdown(id) {
     const wasOpen = menu.classList.contains('show');
     closeAllDropdowns();
     if (!wasOpen) {
-        const badge = document.getElementById(`dropdown-${id}`).querySelector('.status-badge-clickable');
-        const rect = badge.getBoundingClientRect();
-        menu.style.top = rect.bottom + 4 + 'px';
-        menu.style.left = Math.min(rect.left, window.innerWidth - 180) + 'px';
+        menu.style.top = '100%';
+        menu.style.left = '0';
+        menu.style.marginTop = '4px';
         menu.classList.add('show');
     }
 }
@@ -220,6 +220,19 @@ async function selectStatus(id, newStatus) {
         showToast(`Estado cambiado a ${statusLabels[newStatus]}`, toastType[newStatus]);
     } else {
         showToast('Error al actualizar el estado', 'error');
+    }
+}
+
+async function handleDeleteEmprendedor(id) {
+    if (!confirm('¿Está seguro de eliminar este registro permanentemente?')) return;
+    const result = await deleteEmprendedor(id);
+    if (result.success) {
+        emprendedores = await getEmprendedores();
+        await updateDashboard();
+        renderEmprendedores();
+        showToast('Registro eliminado correctamente', 'rejected');
+    } else {
+        showToast('Error al eliminar el registro', 'error');
     }
 }
 

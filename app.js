@@ -25,6 +25,9 @@ function showAdminDashboard() {
 }
 
 let formSuspendedPublic = false;
+let isSubmitting = false;
+let lastSubmitTime = 0;
+const SUBMIT_COOLDOWN = 3000;
 
 document.addEventListener('DOMContentLoaded', async function() {
     initInsForge();
@@ -64,6 +67,10 @@ async function handleSubmit(e) {
         alert('El formulario de registro se encuentra suspendido. Intente más tarde.');
         return;
     }
+
+    const now = Date.now();
+    if (now - lastSubmitTime < SUBMIT_COOLDOWN) return;
+
     const form = e.target;
     const submitBtn = form.querySelector('button[type="submit"]');
     
@@ -72,19 +79,27 @@ async function handleSubmit(e) {
     if (!validateRadios(form)) return;
     
     const formData = collectFormData(form);
+    lastSubmitTime = now;
+    isSubmitting = true;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
     
     try {
         const result = await addEmprendedor(formData);
-        if (result.success) showSuccess();
-        else showError('Error al enviar el registro. Intente nuevamente.');
+        if (result.success) {
+            showSuccess();
+            return;
+        }
+        showError('Error al enviar el registro. Intente nuevamente.');
     } catch (error) {
         console.error('Error:', error);
         showError('Error al enviar el registro. Intente nuevamente.');
     } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Enviar Registro';
+        if (!form.classList.contains('hidden')) {
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Enviar Registro';
+        }
     }
 }
 

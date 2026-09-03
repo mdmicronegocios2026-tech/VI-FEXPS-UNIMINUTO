@@ -59,11 +59,11 @@ tr.aprobado { background: #f0fff4; }
 .status-pendiente { background: #fff3cd; color: #856404; }
 .status-aprobado { background: var(--success-bg); color: #155724; }
 .status-rechazado { background: var(--error-bg); color: #721c24; }
-.status-dropdown { position: relative; display: inline-block; }
+.status-dropdown { position: relative; display: inline-block; overflow: visible; }
 .status-badge-clickable { cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; user-select: none; transition: transform 0.15s, box-shadow 0.15s; }
 .status-badge-clickable:hover { transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 .status-badge-clickable::after { content: '▾'; font-size: 0.6rem; margin-left: 0.2rem; }
-.status-dropdown-menu { display: none; position: fixed; background: white; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); z-index: 999; min-width: 160px; overflow: hidden; }
+.status-dropdown-menu { display: none; position: absolute; background: white; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); z-index: 999; min-width: 160px; overflow: hidden; }
 .status-dropdown-menu.show { display: block; animation: dropIn 0.2s ease; }
 .status-dropdown-item { padding: 0.6rem 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s; font-size: 0.85rem; }
 .status-dropdown-item:hover { background: #f0f0f0; }
@@ -121,7 +121,7 @@ tr.aprobado { background: #f0fff4; }
 .stat-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
 .stat-value { font-size: 2rem; font-weight: bold; color: var(--primary-color); }
 .stat-label { color: var(--light-text); margin-top: 0.5rem; }
-.table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+.table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: visible; }
 .table-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
 .table-header h3 { margin: 0; color: var(--primary-color); }
 .filters-bar { margin-bottom: 1rem; }
