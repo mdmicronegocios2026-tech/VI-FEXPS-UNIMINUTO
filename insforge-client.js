@@ -2,8 +2,8 @@
 // INSFORGE CLIENT - VI FEXPS
 // ============================================
 
-const INSFORGE_API = 'https://upc8i9ie.us-east.insforge.app';
-const INSFORGE_ANON_KEY = 'anon_9c7b19fe7ebf07681163d8bb5542b451605c4a788bc7d48551a456e7bedaaa8e';
+const INSFORGE_API = 'https://nw23gdf5.us-east.insforge.app';
+const INSFORGE_ANON_KEY = 'anon_a7d38de9ba2154ab2468224794af2fbf1154484fb0752c3a332d5291bd719783';
 
 let USE_INSFORGE = false;
 

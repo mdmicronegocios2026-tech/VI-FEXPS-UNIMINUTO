@@ -1,10 +1,36 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root { --primary-color: #1a5276; --primary-light: #2980b9; --secondary-color: #27ae60; --danger-color: #e74c3c; --warning-color: #f39c12; --text-color: #333; --light-text: #666; --bg-color: #f5f6fa; --card-bg: #fff; --border-color: #ddd; --success-bg: #d4edda; --success-border: #c3e6cb; --error-bg: #f8d7da; --error-border: #f5c6cb; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
-.header { background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); color: white; padding: 2rem 1rem; text-align: center; }
+.header { position: relative; background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); color: white; padding: 2rem 1rem 0; text-align: center; overflow: hidden; }
+.header::before { content: ""; position: absolute; inset: 0; background: url('assets/colombia-outline.svg') no-repeat center/contain; opacity: 0.05; pointer-events: none; }
+.header-content { position: relative; z-index: 1; padding-bottom: 1.5rem; }
+.header-kicker { display: inline-block; padding: 0.25rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f1c40f; background: rgba(255,255,255,0.1); border: 1px solid rgba(241,196,15,0.45); border-radius: 999px; }
 .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
 .header p { font-size: 1.1rem; opacity: 0.9; }
 .header .subtitle { margin-top: 0.5rem; font-size: 1rem; font-weight: 500; }
+.tricolor-rule { position: relative; z-index: 1; height: 3px; background: linear-gradient(90deg, #f1c40f 0 33.33%, #1a5276 33.33% 66.66%, #e74c3c 66.66% 100%); }
+.tricolor-rule--thin { height: 2px; }
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.pillar { background: var(--card-bg); border: 1px solid var(--border-color); border-top: 4px solid #f1c40f; border-radius: 10px; padding: 1.25rem 1rem; text-align: center; box-shadow: 0 2px 8px rgba(26, 82, 118, 0.06); transition: transform 0.2s, box-shadow 0.2s; }
+.pillar:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(26, 82, 118, 0.12); }
+.pillar-icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-bottom: 0.65rem; color: var(--primary-color); background: rgba(26, 82, 118, 0.08); border-radius: 50%; }
+.pillar-icon svg { width: 26px; height: 26px; }
+.pillar h3 { color: var(--primary-color); font-size: 1.05rem; margin-bottom: 0.4rem; }
+.pillar p { color: var(--light-text); font-size: 0.88rem; line-height: 1.45; }
+.join-cta { margin: 0.5rem 0 0.5rem; padding: 1.15rem 1.25rem 1.25rem; text-align: center; background: linear-gradient(135deg, #f7f9fc, #eef3f8); border: 1px solid var(--border-color); border-radius: 10px; }
+.join-cta .tricolor-rule { margin: -1.15rem -1.25rem 1rem; border-radius: 10px 10px 0 0; }
+.join-cta-title { color: var(--primary-color); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
+.join-cta-sub { color: var(--light-text); font-size: 0.9rem; }
+.form-brand { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #ffffff 0%, #f7f9fc 100%); border: 1px solid var(--border-color); border-left: 5px solid #f1c40f; border-radius: 10px; box-shadow: 0 2px 8px rgba(26, 82, 118, 0.08); }
+.form-brand-logo { width: min(200px, 46vw); height: auto; flex-shrink: 0; background: #fff; padding: 6px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+.form-brand-text { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; flex: 1; }
+.form-brand-badge { display: inline-block; align-self: flex-start; padding: 0.15rem 0.55rem; background: var(--primary-color); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; }
+.form-brand-text strong { color: var(--primary-color); font-size: 1.15rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1.25; margin-top: 0.15rem; }
+.form-brand-sub { color: var(--light-text); font-size: 0.88rem; line-height: 1.4; }
+.form-brand-divider { width: 1px; align-self: stretch; background: linear-gradient(to bottom, transparent, var(--border-color), transparent); flex-shrink: 0; }
+.form-brand-tag { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.1rem; min-width: 58px; padding: 0.45rem 0.55rem; background: #1a5276; color: #fff; border-radius: 8px; flex-shrink: 0; }
+.form-brand-tag-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; }
+.form-brand-tag-value { font-size: 1.35rem; font-weight: 800; line-height: 1; color: #f1c40f; }
 .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
 .form { background: var(--card-bg); border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 2rem; }
 .form-section { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
@@ -59,11 +85,11 @@ tr.aprobado { background: #f0fff4; }
 .status-pendiente { background: #fff3cd; color: #856404; }
 .status-aprobado { background: var(--success-bg); color: #155724; }
 .status-rechazado { background: var(--error-bg); color: #721c24; }
-.status-dropdown { position: relative; display: inline-block; overflow: visible; }
+.status-dropdown { position: relative; display: inline-block; }
 .status-badge-clickable { cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; user-select: none; transition: transform 0.15s, box-shadow 0.15s; }
 .status-badge-clickable:hover { transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 .status-badge-clickable::after { content: '▾'; font-size: 0.6rem; margin-left: 0.2rem; }
-.status-dropdown-menu { display: none; position: absolute; background: white; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); z-index: 999; min-width: 160px; overflow: hidden; }
+.status-dropdown-menu { display: none; position: fixed; background: white; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); z-index: 999; min-width: 160px; overflow: hidden; }
 .status-dropdown-menu.show { display: block; animation: dropIn 0.2s ease; }
 .status-dropdown-item { padding: 0.6rem 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s; font-size: 0.85rem; }
 .status-dropdown-item:hover { background: #f0f0f0; }
@@ -90,7 +116,8 @@ tr.aprobado { background: #f0fff4; }
 .stat-card { background: var(--card-bg); padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
 .stat-number { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
 .stat-label { color: var(--light-text); font-size: 0.875rem; margin-top: 0.25rem; }
-.footer { text-align: center; padding: 2rem; color: var(--light-text); margin-top: 2rem; }
+.footer { text-align: center; padding: 0 2rem 2rem; color: var(--light-text); margin-top: 2rem; }
+.footer .tricolor-rule { max-width: 280px; margin: 0 auto 1.25rem; border-radius: 2px; }
 .login-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); margin: 0; max-width: none; padding: 1rem; }
 .login-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); width: 100%; max-width: 400px; }
 .login-card h1 { text-align: center; color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.8rem; }
@@ -121,7 +148,7 @@ tr.aprobado { background: #f0fff4; }
 .stat-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
 .stat-value { font-size: 2rem; font-weight: bold; color: var(--primary-color); }
 .stat-label { color: var(--light-text); margin-top: 0.5rem; }
-.table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: visible; }
+.table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
 .table-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
 .table-header h3 { margin: 0; color: var(--primary-color); }
 .filters-bar { margin-bottom: 1rem; }
@@ -144,4 +171,4 @@ tr.aprobado { background: #f0fff4; }
 .modal-body .detail-value { flex: 1; color: var(--text-color); }
 .table-actions { display: flex; gap: 0.5rem; }
 .table-actions .btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; width: auto; }
-@media (max-width: 768px) { .main-header { flex-direction: column; gap: 1rem; } .main-nav { flex-wrap: wrap; justify-content: center; } .nav-btn { font-size: 0.8rem; padding: 0.5rem 1rem; } .inline-form { flex-direction: column; } .inline-form input, .inline-form select { width: 100%; } .inline-form .btn { width: 100%; } table { font-size: 0.8rem; } th, td { padding: 0.5rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .main-header { flex-direction: column; gap: 1rem; } .main-nav { flex-wrap: wrap; justify-content: center; } .nav-btn { font-size: 0.8rem; padding: 0.5rem 1rem; } .inline-form { flex-direction: column; } .inline-form input, .inline-form select { width: 100%; } .inline-form .btn { width: 100%; } table { font-size: 0.8rem; } th, td { padding: 0.5rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .form-brand { flex-direction: column; text-align: center; align-items: center; } .form-brand-logo { width: min(200px, 70vw); } .form-brand-badge { align-self: center; } .form-brand-divider { width: 60%; height: 1px; align-self: center; background: linear-gradient(to right, transparent, var(--border-color), transparent); } .form-brand-tag { flex-direction: row; gap: 0.4rem; min-width: 0; } .form-brand-tag-value { font-size: 1.1rem; } .header-kicker { font-size: 0.65rem; letter-spacing: 0.1em; } .header h1 { font-size: 2rem; } .pillars { grid-template-columns: 1fr; } .join-cta-title { font-size: 1.05rem; } }

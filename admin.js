@@ -119,7 +119,7 @@ async function updateDashboard() {
     document.getElementById('stat-aprobados').textContent = stats.aprobados;
     document.getElementById('stat-rechazados').textContent = stats.rechazados;
     
-    const recentEmprendedores = [...emprendedores].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const recentEmprendedores = [...emprendedores].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5);
     const tbody = document.getElementById('dashboard-table-body');
     
     if (recentEmprendedores.length === 0) {
@@ -193,9 +193,10 @@ function toggleStatusDropdown(id) {
     const wasOpen = menu.classList.contains('show');
     closeAllDropdowns();
     if (!wasOpen) {
-        menu.style.top = '100%';
-        menu.style.left = '0';
-        menu.style.marginTop = '4px';
+        const badge = document.getElementById(`dropdown-${id}`).querySelector('.status-badge-clickable');
+        const rect = badge.getBoundingClientRect();
+        menu.style.top = rect.bottom + 4 + 'px';
+        menu.style.left = Math.min(rect.left, window.innerWidth - 180) + 'px';
         menu.classList.add('show');
     }
 }

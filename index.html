@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VI FEXPS - Registro de Emprendimientos</title>
+    <link rel="icon" type="image/png" href="logo-uniminuto-cb.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -13,14 +14,66 @@
     <div id="registration-section">
         <header class="header">
             <div class="header-content">
+                <p class="header-kicker">Comunidad · Territorio · Emprendimiento</p>
                 <h1>VI FEXPS</h1>
                 <p>Feria de Experiencias de Proyección Social</p>
-                <p class="subtitle">Registro de Emprendimientos y Micronegocios</p>
+                <p class="subtitle">Emprendemos por Colombia — Registro de Emprendimientos y Micronegocios</p>
             </div>
+            <div class="tricolor-rule" aria-hidden="true"></div>
         </header>
 
         <main class="container">
+            <section class="pillars" aria-label="Ejes de la feria">
+                <article class="pillar">
+                    <div class="pillar-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Comunidad</h3>
+                    <p>Experiencias de proyección social que transforman barrios y veredas.</p>
+                </article>
+                <article class="pillar">
+                    <div class="pillar-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 21s-6-5.4-6-10a6 6 0 1 1 12 0c0 4.6-6 10-6 10z"/>
+                            <circle cx="12" cy="11" r="2.2"/>
+                        </svg>
+                    </div>
+                    <h3>Territorio</h3>
+                    <p>Cundinamarca y Boyacá: raíces colombianas, alcance universitario.</p>
+                </article>
+                <article class="pillar">
+                    <div class="pillar-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18h6"/>
+                            <path d="M10 22h4"/>
+                            <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Emprendimiento</h3>
+                    <p>Micronegocios e ideas con potencial de crecer en Colombia.</p>
+                </article>
+            </section>
+
             <form id="registrationForm" class="form">
+                <div class="form-brand">
+                    <img src="logo-uniminuto-cb.png" alt="UNIMINUTO Cundinamarca - Boyacá" class="form-brand-logo">
+                    <div class="form-brand-text">
+                        <span class="form-brand-badge">Formulario Oficial</span>
+                        <strong>Preinscripción VI FEXPS</strong>
+                        <span class="form-brand-sub">Para emprendedores de la comunidad · Colombia</span>
+                    </div>
+                    <div class="form-brand-divider" aria-hidden="true"></div>
+                    <div class="form-brand-tag">
+                        <span class="form-brand-tag-label">Edición</span>
+                        <span class="form-brand-tag-value">VI</span>
+                    </div>
+                </div>
+
                 <!-- Autorización -->
                 <section class="form-section">
                     <h2>Autorización</h2>
@@ -177,6 +230,12 @@
                     </div>
                 </section>
 
+                <div class="join-cta">
+                    <div class="tricolor-rule tricolor-rule--thin" aria-hidden="true"></div>
+                    <p class="join-cta-title">¡Súmate! Tu emprendimiento hace comunidad</p>
+                    <p class="join-cta-sub">Aquí nacen las experiencias que mueven la proyección social</p>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Enviar Registro</button>
                     <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
@@ -188,8 +247,7 @@
                 <div class="success-content">
                     <h2>¡Registro Enviado!</h2>
                     <p>Su registro ha sido enviado exitosamente.</p>
-                    <p>📩 Pendiente de confirmación por correo electrónico.</p>
-                    <p style="font-size: 0.9rem; color: #666;">La inscripción está sujeta a disponibilidad y confirmación por parte del equipo organizador.</p>
+                    <p>Recibirá un correo de confirmación con los detalles de su participación.</p>
                     <button onclick="location.reload()" class="btn btn-primary">Enviar otro registro</button>
                 </div>
             </div>
@@ -204,8 +262,10 @@
         </main>
 
         <footer class="footer">
+            <div class="tricolor-rule tricolor-rule--thin" aria-hidden="true"></div>
             <p>VI FEXPS - Feria de Experiencias de Proyección Social</p>
             <p>Universidad Minuto de Dios</p>
+            <p>Cundinamarca - Boyacá · Comunidad UNIMINUTO · Colombia</p>
             <p style="margin-top: 1rem;"><a href="#" onclick="showAdminLogin(); return false;" style="color: var(--primary-color);">Panel de Administración</a></p>
         </footer>
     </div>
@@ -282,7 +342,7 @@
                 </div>
                 <div class="table-container">
                     <div class="table-header">
-                        <h3>Todos los Registros</h3>
+                        <h3>Últimos Registros</h3>
                     </div>
                     <table>
                         <thead>
