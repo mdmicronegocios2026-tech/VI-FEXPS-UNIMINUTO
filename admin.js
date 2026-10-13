@@ -112,6 +112,41 @@ async function loadData() {
     renderUsers();
 }
 
+function escapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function normalizeUrl(value) {
+    const v = (value || '').trim();
+    if (!v) return '';
+    if (/^https?:\/\//i.test(v)) return v;
+    return 'https://' + v;
+}
+
+function isRealUrl(value) {
+    const v = (value || '').trim();
+    return /^https?:\/\/[^\s]+\.[^\s]{2,}/i.test(v);
+}
+
+function renderSocialLink(value) {
+    const raw = (value || '').trim();
+    if (!raw) return '-';
+    if (!isRealUrl(raw)) return escapeHtml(raw);
+    return `<a class="social-link" href="${escapeHtml(raw)}" target="_blank" rel="noopener noreferrer">Abrir ↗</a>`;
+}
+
+function renderSocialLinkDetail(value) {
+    const raw = (value || '').trim();
+    if (!raw) return '-';
+    if (!isRealUrl(raw)) return escapeHtml(raw);
+    return `<a class="social-link" href="${escapeHtml(raw)}" target="_blank" rel="noopener noreferrer">${escapeHtml(raw)} ↗</a>`;
+}
+
 async function updateDashboard() {
     const stats = await getStats(emprendedores);
     document.getElementById('stat-total').textContent = stats.total;
@@ -132,7 +167,7 @@ async function updateDashboard() {
             <td>${emp.nombres || '-'}</td>
             <td>${emp.nombre_emprendimiento || '-'}</td>
             <td>${emp.linea_negocio || '-'}</td>
-            <td>${emp.redes_sociales || '-'}</td>
+            <td>${renderSocialLink(emp.redes_sociales)}</td>
             <td>${renderStatusDropdown(emp)}</td>
         </tr>
     `).join('');
@@ -259,7 +294,7 @@ function viewDetails(id) {
         <div class="detail-row"><span class="detail-label">Emprendimiento:</span><span class="detail-value">${emp.nombre_emprendimiento || '-'}</span></div>
         <div class="detail-row"><span class="detail-label">Tipo Participante:</span><span class="detail-value">${emp.tipo_participante || '-'}</span></div>
         <div class="detail-row"><span class="detail-label">Línea Negocio:</span><span class="detail-value">${emp.linea_negocio || '-'}</span></div>
-        <div class="detail-row"><span class="detail-label">Redes Sociales:</span><span class="detail-value">${emp.redes_sociales || '-'}</span></div>
+        <div class="detail-row"><span class="detail-label">Página / Red Social:</span><span class="detail-value">${renderSocialLinkDetail(emp.redes_sociales)}</span></div>
         <div class="detail-row"><span class="detail-label">Acompañante:</span><span class="detail-value">${emp.acompanante || '-'}</span></div>
         <div class="detail-row"><span class="detail-label">Elementos:</span><span class="detail-value">${emp.elementos || '-'}</span></div>
         <div class="detail-row"><span class="detail-label">Productos/Servicios:</span><span class="detail-value">${emp.productos || '-'}</span></div>
