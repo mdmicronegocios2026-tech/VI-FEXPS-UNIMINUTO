@@ -403,10 +403,10 @@ const statusTitles = {
     rechazado: 'FEXNOVA - Emprendedores Rechazados'
 };
 
-function exportAll() { exportToExcel(emprendedores, 'emprendedores_fexp_todos', 'FEXNOVA - Todos los Emprendedores'); }
+function exportAll() { exportToExcel(emprendedores, 'emprendedores_fexnova_todos', 'FEXNOVA - Todos los Emprendedores'); }
 function exportFiltered(status) {
     const filtered = emprendedores.filter(e => e.estado === status);
-    exportToExcel(filtered, `emprendedores_fexp_${status}`, statusTitles[status] || `FEXNOVA - Emprendedores ${status}`);
+    exportToExcel(filtered, `emprendedores_fexnova_${status}`, statusTitles[status] || `FEXNOVA - Emprendedores ${status}`);
 }
 
 let formSuspended = false;

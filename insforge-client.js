@@ -519,7 +519,7 @@ async function exportToExcel(data, filename, title) {
     sheet.views = [{ state: 'frozen', ySplit: 2 }];
 
     const date = new Date().toISOString().split('T')[0];
-    const fileName = filename ? `${filename}_${date}.xlsx` : `emprendedores_fexp_${date}.xlsx`;
+    const fileName = filename ? `${filename}_${date}.xlsx` : `emprendedores_fexnova_${date}.xlsx`;
 
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });

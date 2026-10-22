@@ -1,1 +1,3 @@
-# VI FEXPS - Plataforma de Registro de Emprendimientos\n\nSistema de registro para emprendedores.
+# FEXNOVA - Plataforma de Preinscripción de Emprendimientos
+
+Feria de UNIMINUTO Zipaquirá. Sistema de preinscripción y gestión de emprendedores.

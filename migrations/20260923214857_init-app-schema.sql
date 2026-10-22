@@ -1,4 +1,4 @@
--- App schema for VI FEXPS (usuarios, emprendedores, config)
+-- App schema for FEXNOVA (usuarios, emprendedores, config)
 
 CREATE TABLE public.usuarios (
   id uuid PRIMARY KEY REFERENCES auth.users (id) ON DELETE CASCADE,
