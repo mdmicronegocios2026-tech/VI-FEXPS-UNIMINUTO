@@ -121,27 +121,15 @@ function escapeHtml(str) {
         .replace(/'/g, '&#39;');
 }
 
-function normalizeUrl(value) {
-    const v = (value || '').trim();
-    if (!v) return '';
-    if (/^https?:\/\//i.test(v)) return v;
-    return 'https://' + v;
-}
-
-function isRealUrl(value) {
-    const v = (value || '').trim();
-    return /^https?:\/\/[^\s]+\.[^\s]{2,}/i.test(v);
-}
-
 function renderSocialLink(value) {
-    const raw = (value || '').trim();
+    const raw = normalizeUrl(value);
     if (!raw) return '-';
     if (!isRealUrl(raw)) return escapeHtml(raw);
     return `<a class="social-link" href="${escapeHtml(raw)}" target="_blank" rel="noopener noreferrer">Abrir ↗</a>`;
 }
 
 function renderSocialLinkDetail(value) {
-    const raw = (value || '').trim();
+    const raw = normalizeUrl(value);
     if (!raw) return '-';
     if (!isRealUrl(raw)) return escapeHtml(raw);
     return `<a class="social-link" href="${escapeHtml(raw)}" target="_blank" rel="noopener noreferrer">${escapeHtml(raw)} ↗</a>`;

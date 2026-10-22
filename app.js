@@ -131,13 +131,6 @@ function validateField(field) {
     return isValid;
 }
 
-function normalizeUrl(value) {
-    const v = (value || '').trim();
-    if (!v) return '';
-    if (/^https?:\/\//i.test(v)) return v;
-    return 'https://' + v;
-}
-
 function validateCheckboxes(form) {
     const cbs = Array.from(form.querySelectorAll('input[type="checkbox"][name="elementos"]'));
     if (cbs.length > 0 && !cbs.some(cb => cb.checked)) {
