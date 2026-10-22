@@ -1,5 +1,5 @@
 // ============================================
-// INSFORGE CLIENT - VI FEXPS
+// INSFORGE CLIENT - FEXNOVA
 // ============================================
 
 const INSFORGE_API = 'https://nw23gdf5.us-east.insforge.app';
@@ -413,6 +413,12 @@ async function setFormStatus(suspended) {
     }
 }
 
+function formatAceptacionPreinscripcion(value) {
+    if (value === true) return 'Aceptada';
+    if (value === false) return 'No aceptada';
+    return 'Sin registro';
+}
+
 async function exportToExcel(data, filename, title) {
     if (typeof ExcelJS === 'undefined') { alert('Librería ExcelJS no cargada'); return false; }
     if (!data || data.length === 0) { alert('No hay datos para exportar'); return false; }
@@ -420,18 +426,18 @@ async function exportToExcel(data, filename, title) {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet('Emprendedores', { properties: { defaultColWidth: 15 } });
 
-    const colCount = 15;
+    const colCount = 16;
     const lastCol = String.fromCharCode(64 + colCount);
 
     sheet.mergeCells(`A1:${lastCol}1`);
     const titleCell = sheet.getCell('A1');
-    titleCell.value = title || 'VI FEXPS - Reporte de Emprendedores';
+    titleCell.value = title || 'FEXNOVA - Reporte de Emprendedores';
     titleCell.font = { bold: true, size: 14, color: { argb: 'FFFFFFFF' }, name: 'Calibri' };
     titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1A5276' } };
     titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
     sheet.getRow(1).height = 38;
 
-    const headers = ['#', 'Nombres', 'Documento', 'Correo', 'Celular', 'Emprendimiento', 'Tipo Participante', 'Línea Negocio', 'Redes Sociales', 'Acompañante', 'Elementos', 'Productos/Servicios', 'Requerimientos', 'Jornada Prep.', 'Estado'];
+    const headers = ['#', 'Nombres', 'Documento', 'Correo', 'Celular', 'Emprendimiento', 'Tipo Participante', 'Línea Negocio', 'Redes Sociales', 'Acompañante', 'Elementos', 'Productos/Servicios', 'Requerimientos', 'Jornada Prep.', 'Estado', 'Aceptación de preinscripción'];
     const headerRow = sheet.getRow(2);
     headers.forEach((h, i) => {
         const cell = headerRow.getCell(i + 1);
@@ -475,7 +481,8 @@ async function exportToExcel(data, filename, title) {
             emp.productos || '',
             emp.requerimientos || '',
             emp.jornada_preparacion || '',
-            emp.estado || ''
+            emp.estado || '',
+            formatAceptacionPreinscripcion(emp.aceptacion_preinscripcion)
         ];
 
         rowData.forEach((val, colIdx) => {
@@ -506,7 +513,7 @@ async function exportToExcel(data, filename, title) {
         row.height = 22;
     });
 
-    const colWidths = [5, 28, 15, 28, 14, 28, 22, 22, 24, 24, 28, 35, 28, 16, 14];
+    const colWidths = [5, 28, 15, 28, 14, 28, 22, 22, 24, 24, 28, 35, 28, 16, 14, 28];
     colWidths.forEach((w, i) => { sheet.getColumn(i + 1).width = w; });
 
     sheet.views = [{ state: 'frozen', ySplit: 2 }];

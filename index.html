@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VI FEXPS - Registro de Emprendimientos</title>
+    <title>FEXNOVA - Registro de Emprendimientos</title>
     <link rel="icon" type="image/png" href="logo-uniminuto-cb.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -15,7 +15,7 @@
         <header class="header">
             <div class="header-content">
                 <p class="header-kicker">Comunidad · Territorio · Emprendimiento</p>
-                <h1>VI FEXPS</h1>
+                <h1>FEXNOVA</h1>
                 <p>Feria de Experiencias de Proyección Social</p>
                 <p class="subtitle">Emprendemos por Colombia — Registro de Emprendimientos y Micronegocios</p>
             </div>
@@ -64,13 +64,8 @@
                     <img src="logo-uniminuto-cb.png" alt="UNIMINUTO Cundinamarca - Boyacá" class="form-brand-logo">
                     <div class="form-brand-text">
                         <span class="form-brand-badge">Formulario Oficial</span>
-                        <strong>Preinscripción VI FEXPS</strong>
+                        <strong>Preinscripción FEXNOVA</strong>
                         <span class="form-brand-sub">Para emprendedores de la comunidad · Colombia</span>
-                    </div>
-                    <div class="form-brand-divider" aria-hidden="true"></div>
-                    <div class="form-brand-tag">
-                        <span class="form-brand-tag-label">Edición</span>
-                        <span class="form-brand-tag-value">VI</span>
                     </div>
                 </div>
 
@@ -92,7 +87,7 @@
                         <label for="actividad">Seleccione la actividad en la que desea realizar su preinscripción: <span class="required">*</span></label>
                         <select id="actividad" name="actividad" required>
                             <option value="">Seleccione una opción</option>
-                            <option value="Vitrina Comercial">Vitrina Comercial: VI FEXPS - Feria de Experiencias de Proyección Social</option>
+                            <option value="Vitrina Comercial">Vitrina Comercial: FEXNOVA - Feria de Experiencias de Proyección Social</option>
                         </select>
                     </div>
 
@@ -169,7 +164,7 @@
 
                     <div class="form-group">
                         <label for="acompanante">Nombres y apellidos del acompañante:</label>
-                        <input type="text" id="acompanante" name="acompanante" placeholder="Se destinarán 2 sillas por stand">
+                        <input type="text" id="acompanante" name="acompanante" placeholder="Nombres y apellidos del acompañante">
                     </div>
                 </section>
 
@@ -231,15 +226,25 @@
                     </div>
                 </section>
 
-                <div class="join-cta">
-                    <div class="tricolor-rule tricolor-rule--thin" aria-hidden="true"></div>
-                    <p class="join-cta-title">¡Súmate! Tu emprendimiento hace comunidad</p>
-                    <p class="join-cta-sub">Aquí nacen las experiencias que mueven la proyección social</p>
-                </div>
+                <section class="form-section preinscription-conditions" aria-labelledby="condiciones-title">
+                    <h2 id="condiciones-title">Aceptación de condiciones de preinscripción</h2>
+                    <div class="form-group">
+                        <label class="checkbox-label" for="aceptacion_preinscripcion">
+                            <input type="checkbox" id="aceptacion_preinscripcion" name="aceptacion_preinscripcion" required>
+                            <span>Entiendo y acepto que el diligenciamiento de este formulario corresponde a una preinscripción y no garantiza la asignación de un stand ni la participación en el evento. Reconozco que los cupos son limitados y que la confirmación definitiva está sujeta al proceso de verificación y cumplimiento de los requisitos.</span>
+                        </label>
+                    </div>
+                </section>
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Enviar Registro</button>
                     <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
+                </div>
+
+                <div class="join-cta">
+                    <div class="tricolor-rule tricolor-rule--thin" aria-hidden="true"></div>
+                    <p class="join-cta-title">¡Súmate! Tu emprendimiento hace comunidad</p>
+                    <p class="join-cta-sub">Aquí nacen las experiencias que mueven la proyección social</p>
                 </div>
             </form>
 
@@ -264,7 +269,7 @@
 
         <footer class="footer">
             <div class="tricolor-rule tricolor-rule--thin" aria-hidden="true"></div>
-            <p>VI FEXPS - Feria de Experiencias de Proyección Social</p>
+            <p>FEXNOVA - Feria de Experiencias de Proyección Social</p>
             <p>Universidad Minuto de Dios</p>
             <p>Cundinamarca - Boyacá · Comunidad UNIMINUTO · Colombia</p>
             <p style="margin-top: 1rem;"><a href="#" onclick="showAdminLogin(); return false;" style="color: var(--primary-color);">Panel de Administración</a></p>
@@ -274,7 +279,7 @@
     <!-- ==================== LOGIN ADMIN ==================== -->
     <div id="admin-login-screen" style="display:none">
         <div class="login-card">
-            <h1>VI FEXPS</h1>
+            <h1>FEXNOVA</h1>
             <p class="subtitle">Panel de Administración</p>
             <div id="login-error" class="error-message" style="display:none"></div>
             <form id="login-form">
@@ -296,7 +301,7 @@
     <div id="admin-main-screen" style="display:none">
         <!-- HEADER ADMIN -->
         <header class="main-header">
-            <h1>VI FEXPS</h1>
+            <h1>FEXNOVA</h1>
             <div class="user-info">
                 <span id="user-name"></span>
                 <span id="user-role" class="role-badge"></span>

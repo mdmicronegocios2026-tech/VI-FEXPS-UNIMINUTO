@@ -17,10 +17,10 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 .pillar-icon svg { width: 26px; height: 26px; }
 .pillar h3 { color: var(--primary-color); font-size: 1.05rem; margin-bottom: 0.4rem; }
 .pillar p { color: var(--light-text); font-size: 0.88rem; line-height: 1.45; }
-.join-cta { margin: 0.5rem 0 0.5rem; padding: 1.15rem 1.25rem 1.25rem; text-align: center; background: linear-gradient(135deg, #f7f9fc, #eef3f8); border: 1px solid var(--border-color); border-radius: 10px; }
-.join-cta .tricolor-rule { margin: -1.15rem -1.25rem 1rem; border-radius: 10px 10px 0 0; }
-.join-cta-title { color: var(--primary-color); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
-.join-cta-sub { color: var(--light-text); font-size: 0.9rem; }
+.join-cta { position: relative; overflow: hidden; margin: 2rem 0 0; padding: 1.5rem 1.25rem; text-align: center; background: linear-gradient(135deg, #f7f9fc, #eef3f8); border: 1px solid #e3eaf0; border-radius: 10px; }
+.join-cta .tricolor-rule { position: absolute; inset: 0 0 auto; margin: 0; }
+.join-cta-title { color: var(--primary-color); font-size: 1.15rem; font-weight: 700; line-height: 1.4; margin-bottom: 0.4rem; text-wrap: balance; }
+.join-cta-sub { max-width: 34rem; margin: 0 auto; color: var(--light-text); font-size: 0.9rem; line-height: 1.6; text-wrap: pretty; }
 .form-brand { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #ffffff 0%, #f7f9fc 100%); border: 1px solid var(--border-color); border-left: 5px solid #f1c40f; border-radius: 10px; box-shadow: 0 2px 8px rgba(26, 82, 118, 0.08); }
 .form-brand-logo { width: min(200px, 46vw); height: auto; flex-shrink: 0; background: #fff; padding: 6px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
 .form-brand-text { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; flex: 1; }
@@ -175,3 +175,42 @@ tr.aprobado { background: #f0fff4; }
 .social-link { color: var(--primary-light); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .social-link:hover { text-decoration: underline; color: var(--primary-color); }
 @media (max-width: 768px) { .main-header { flex-direction: column; gap: 1rem; } .main-nav { flex-wrap: wrap; justify-content: center; } .nav-btn { font-size: 0.8rem; padding: 0.5rem 1rem; } .inline-form { flex-direction: column; } .inline-form input, .inline-form select { width: 100%; } .inline-form .btn { width: 100%; } table { font-size: 0.8rem; } th, td { padding: 0.5rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .form-brand { flex-direction: column; text-align: center; align-items: center; } .form-brand-logo { width: min(200px, 70vw); } .form-brand-badge { align-self: center; } .form-brand-divider { width: 60%; height: 1px; align-self: center; background: linear-gradient(to right, transparent, var(--border-color), transparent); } .form-brand-tag { flex-direction: row; gap: 0.4rem; min-width: 0; } .form-brand-tag-value { font-size: 1.1rem; } .header-kicker { font-size: 0.65rem; letter-spacing: 0.1em; } .header h1 { font-size: 2rem; } .pillars { grid-template-columns: 1fr; } .join-cta-title { font-size: 1.05rem; } }
+
+/* Keep the full pre-registration conditions readable on narrow screens. */
+.preinscription-conditions .checkbox-label { display: flex; align-items: flex-start; line-height: 1.6; }
+.preinscription-conditions input[type="checkbox"] { flex: 0 0 18px; margin-top: 0.25rem; }
+.preinscription-conditions .checkbox-label span { min-width: 0; overflow-wrap: anywhere; }
+
+/* A compact acceptance block, clear actions, and a separate closing message. */
+.preinscription-conditions { margin-bottom: 1.5rem; padding-bottom: 0; }
+.preinscription-conditions h2 { font-size: 1.15rem; margin-bottom: 1rem; line-height: 1.4; }
+.preinscription-conditions .form-group { margin-bottom: 0; }
+.preinscription-conditions .checkbox-label { padding: 1rem; border: 1px solid #e3eaf0; border-radius: 8px; font-size: 0.95rem; gap: 0.75rem; }
+#registrationForm > .form-actions { margin-top: 0; flex-wrap: wrap; }
+#registrationForm > .form-actions .btn { min-height: 48px; }
+@media (max-width: 480px) {
+    #registrationForm { padding: 1.25rem; }
+    #registrationForm > .form-actions { flex-direction: column; gap: 0.75rem; }
+    #registrationForm > .form-actions .btn { width: 100%; }
+    .join-cta { margin-top: 1.5rem; padding: 1.25rem 1rem; }
+}
+
+/* Mobile registration: full-width fields and a quieter reset action. */
+@media (max-width: 768px) {
+    #registrationForm .form-row { flex-direction: column; gap: 0; }
+    #registrationForm .form-row > .form-group { width: 100%; min-width: 0; }
+    #registrationForm .form-section { margin-bottom: 1.5rem; padding-bottom: 1rem; }
+    #registrationForm .form-section h2 { margin-bottom: 1rem; }
+    #registrationForm .form-group { margin-bottom: 1rem; }
+    #registrationForm .preinscription-conditions { padding-bottom: 0; }
+    #registrationForm .preinscription-conditions .form-group { margin-bottom: 0; }
+    #registrationForm > .form-actions .btn-secondary {
+        background: transparent;
+        border: 1px solid #9ba9b3;
+        color: var(--primary-color);
+    }
+    #registrationForm > .form-actions .btn-secondary:hover {
+        background: #eef3f8;
+        border-color: var(--primary-color);
+    }
+}

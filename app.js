@@ -1,5 +1,5 @@
 // ============================================
-// VI FEXPS - FORMULARIO PÚBLICO
+// FEXNOVA - FORMULARIO PÚBLICO
 // ============================================
 
 function showAdminLogin() {
@@ -116,7 +116,9 @@ function validateField(field) {
     let isValid = true;
     let message = '';
     
-    if (field.required && !value) {
+    if (field.required && field.type === 'checkbox' && !field.checked) {
+        isValid = false; message = 'Debe marcar esta casilla para continuar';
+    } else if (field.required && !value) {
         isValid = false; message = 'Este campo es obligatorio';
     } else if (field.type === 'email' && value) {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
@@ -157,7 +159,10 @@ function validateRadios(form) {
 }
 
 function collectFormData(form) {
-    const data = { autorizacion: form.querySelector('#autorizacion').checked };
+    const data = {
+        autorizacion: form.querySelector('#autorizacion').checked,
+        aceptacion_preinscripcion: form.querySelector('#aceptacion_preinscripcion').checked
+    };
     const fields = ['actividad', 'tipo_participante', 'nombres', 'documento', 'correo', 'celular', 'nombre_emprendimiento', 'linea_negocio', 'redes_sociales', 'acompanante', 'productos', 'requerimientos'];
     fields.forEach(f => {
         const el = form.querySelector(`#${f}`);

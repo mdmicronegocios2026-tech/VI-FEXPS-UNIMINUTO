@@ -1,5 +1,5 @@
 // ============================================
-// VI FEXPS - PANEL DE ADMINISTRACIÓN
+// FEXNOVA - PANEL DE ADMINISTRACIÓN
 // ============================================
 
 let currentUser = null;
@@ -300,6 +300,7 @@ function viewDetails(id) {
         <div class="detail-row"><span class="detail-label">Productos/Servicios:</span><span class="detail-value">${emp.productos || '-'}</span></div>
         <div class="detail-row"><span class="detail-label">Requerimientos:</span><span class="detail-value">${emp.requerimientos || '-'}</span></div>
         <div class="detail-row"><span class="detail-label">Jornada Prep.:</span><span class="detail-value">${emp.jornada_preparacion || '-'}</span></div>
+        <div class="detail-row"><span class="detail-label">Aceptación de preinscripción:</span><span class="detail-value">${formatAceptacionPreinscripcion(emp.aceptacion_preinscripcion)}</span></div>
         <div class="detail-row"><span class="detail-label">Estado:</span><span class="detail-value"><span class="status-badge status-${emp.estado}">${emp.estado}</span></span></div>
         <div class="detail-row"><span class="detail-label">Fecha Registro:</span><span class="detail-value">${emp.created_at ? new Date(emp.created_at).toLocaleString() : '-'}</span></div>
     `;
@@ -397,15 +398,15 @@ async function handleDeleteUser(id) {
 function closeEditModal() { document.getElementById('edit-user-modal').style.display = 'none'; }
 
 const statusTitles = {
-    aprobado: 'VI FEXPS - Emprendedores Aprobados',
-    pendiente: 'VI FEXPS - Emprendedores Pendientes',
-    rechazado: 'VI FEXPS - Emprendedores Rechazados'
+    aprobado: 'FEXNOVA - Emprendedores Aprobados',
+    pendiente: 'FEXNOVA - Emprendedores Pendientes',
+    rechazado: 'FEXNOVA - Emprendedores Rechazados'
 };
 
-function exportAll() { exportToExcel(emprendedores, 'emprendedores_fexp_todos', 'VI FEXPS - Todos los Emprendedores'); }
+function exportAll() { exportToExcel(emprendedores, 'emprendedores_fexp_todos', 'FEXNOVA - Todos los Emprendedores'); }
 function exportFiltered(status) {
     const filtered = emprendedores.filter(e => e.estado === status);
-    exportToExcel(filtered, `emprendedores_fexp_${status}`, statusTitles[status] || `VI FEXPS - Emprendedores ${status}`);
+    exportToExcel(filtered, `emprendedores_fexp_${status}`, statusTitles[status] || `FEXNOVA - Emprendedores ${status}`);
 }
 
 let formSuspended = false;
