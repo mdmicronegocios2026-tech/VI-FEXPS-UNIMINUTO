@@ -133,7 +133,7 @@ async function refreshEmprendedores() {
             for (const id of ['stat-total', 'stat-pendientes', 'stat-aprobados', 'stat-rechazados']) {
                 document.getElementById(id).textContent = '—';
             }
-            document.getElementById('dashboard-table-body').innerHTML = '<tr><td colspan="5">Error al cargar las preinscripciones</td></tr>';
+            document.getElementById('dashboard-table-body').innerHTML = '<tr><td colspan="6">Error al cargar las preinscripciones</td></tr>';
             document.getElementById('emprendedores-table-body').innerHTML = '<tr><td colspan="9">Error al cargar las preinscripciones</td></tr>';
             return false;
         }
@@ -177,7 +177,7 @@ async function updateDashboard() {
     const tbody = document.getElementById('dashboard-table-body');
     
     if (allEmprendedores.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #666;">No hay registros aún</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #666;">No hay registros aún</td></tr>`;
         return;
     }
     
@@ -188,6 +188,13 @@ async function updateDashboard() {
             <td>${emp.linea_negocio || '-'}</td>
             <td>${renderSocialLink(emp.redes_sociales)}</td>
             <td>${renderStatusDropdown(emp)}</td>
+            <td>
+                <button type="button" class="delete-record-btn" onclick="handleDeleteEmprendedor(${emp.id})" aria-label="Eliminar registro de ${escapeHtml(emp.nombres || 'este emprendedor')}" title="Eliminar registro">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6" />
+                    </svg>
+                </button>
+            </td>
         </tr>
     `).join('');
 }
@@ -277,14 +284,42 @@ async function selectStatus(id, newStatus) {
     }
 }
 
-async function handleDeleteEmprendedor(id) {
-    if (!confirm('¿Está seguro de eliminar este registro permanentemente?')) return;
-    const result = await deleteEmprendedor(id);
-    if (result.success) {
-        if (!await refreshEmprendedores()) return;
+let pendingDeleteId = null;
+let deletingRecord = false;
+
+function handleDeleteEmprendedor(id) {
+    if (deletingRecord) return;
+    const emp = emprendedores.find(e => String(e.id) === String(id));
+    if (!emp) return;
+    pendingDeleteId = emp.id;
+    document.getElementById('delete-record-name').textContent = emp.nombres || 'Sin nombre';
+    document.getElementById('delete-record-business').textContent = emp.nombre_emprendimiento || 'Sin emprendimiento';
+    document.getElementById('delete-record-error').textContent = '';
+    document.getElementById('delete-record-dialog').showModal();
+}
+
+async function confirmDeleteEmprendedor() {
+    const dialog = document.getElementById('delete-record-dialog');
+    if (!dialog.open || pendingDeleteId === null || deletingRecord) return;
+    deletingRecord = true;
+    const confirmBtn = document.getElementById('delete-record-confirm');
+    const cancelBtn = document.getElementById('delete-record-cancel');
+    confirmBtn.disabled = cancelBtn.disabled = true;
+    confirmBtn.textContent = 'Eliminando…';
+    document.getElementById('delete-record-error').textContent = '';
+    try {
+        const result = await deleteEmprendedor(pendingDeleteId);
+        if (!result.success) throw new Error('No se pudo eliminar');
+        dialog.close();
+        pendingDeleteId = null;
+        await refreshEmprendedores();
         showToast('Registro eliminado correctamente', 'rejected');
-    } else {
-        showToast('Error al eliminar el registro', 'error');
+    } catch {
+        document.getElementById('delete-record-error').textContent = 'No pudimos eliminar el registro. Intenta nuevamente.';
+    } finally {
+        deletingRecord = false;
+        confirmBtn.disabled = cancelBtn.disabled = false;
+        confirmBtn.textContent = 'Eliminar registro';
     }
 }
 

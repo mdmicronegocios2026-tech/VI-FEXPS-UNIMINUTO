@@ -359,6 +359,7 @@
                                 <th>Línea</th>
                                 <th>Redes</th>
                                 <th>Estado</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="dashboard-table-body">
@@ -472,6 +473,25 @@
     </div>
 
     <!-- ==================== MODALES ==================== -->
+    <dialog id="delete-record-dialog" class="delete-dialog" aria-labelledby="delete-record-title" aria-describedby="delete-record-description" oncancel="if (deletingRecord) event.preventDefault()">
+        <div class="delete-dialog-body">
+            <span class="delete-dialog-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6" /></svg>
+            </span>
+            <p class="delete-dialog-eyebrow">GESTIÓN DE PREINSCRIPCIONES</p>
+            <h3 id="delete-record-title">¿Eliminar esta preinscripción?</h3>
+            <p id="delete-record-description">Vas a eliminar el siguiente registro de la feria. Esta acción no se puede deshacer.</p>
+            <div class="delete-dialog-record">
+                <strong id="delete-record-name"></strong>
+                <span id="delete-record-business"></span>
+            </div>
+            <p id="delete-record-error" class="delete-dialog-error" role="alert"></p>
+            <div class="delete-dialog-actions">
+                <button type="button" id="delete-record-cancel" class="delete-dialog-cancel" onclick="document.getElementById('delete-record-dialog').close()" autofocus>Cancelar</button>
+                <button type="button" id="delete-record-confirm" class="delete-dialog-confirm" onclick="confirmDeleteEmprendedor()">Eliminar registro</button>
+            </div>
+        </div>
+    </dialog>
     <!-- MODAL DE DETALLES -->
     <div id="detail-modal" class="modal" style="display:none">
         <div class="modal-content">
