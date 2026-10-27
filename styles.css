@@ -148,7 +148,7 @@ tr.aprobado { background: #f0fff4; }
 .stat-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
 .stat-value { font-size: 2rem; font-weight: bold; color: var(--primary-color); }
 .stat-label { color: var(--light-text); margin-top: 0.5rem; }
-.table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+.table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow-x: auto; }
 .table-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
 .table-header h3 { margin: 0; color: var(--primary-color); }
 .filters-bar { margin-bottom: 1rem; }

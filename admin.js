@@ -6,6 +6,8 @@ let currentUser = null;
 let currentFilter = 'todos';
 let emprendedores = [];
 let usuarios = [];
+let preinscripcionesLoaded = false;
+let preinscripcionesRequest = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
@@ -92,11 +94,10 @@ async function switchView(viewName) {
     document.getElementById(`view-${viewName}`).classList.add('active');
     
     if (viewName === 'dashboard') {
+        await refreshEmprendedores();
         await loadFormStatus();
-        await updateDashboard();
     } else if (viewName === 'emprendedores') {
-        emprendedores = await getEmprendedores();
-        renderEmprendedores();
+        await refreshEmprendedores();
     } else if (viewName === 'usuarios') {
         usuarios = await getUsers();
         renderUsers();
@@ -104,12 +105,41 @@ async function switchView(viewName) {
 }
 
 async function loadData() {
-    emprendedores = await getEmprendedores();
+    await refreshEmprendedores();
     usuarios = await getUsers();
     await loadFormStatus();
-    await updateDashboard();
-    renderEmprendedores();
     renderUsers();
+}
+
+// Publish only complete loads; failed or pending loads cannot be exported.
+async function refreshEmprendedores() {
+    if (preinscripcionesRequest) return preinscripcionesRequest;
+    preinscripcionesLoaded = false;
+    document.getElementById('preinscripciones-status').textContent = 'Cargando todas las preinscripciones…';
+    preinscripcionesRequest = (async () => {
+        try {
+            const records = await getEmprendedores();
+            emprendedores = records;
+            preinscripcionesLoaded = true;
+            await updateDashboard();
+            renderEmprendedores();
+            document.getElementById('preinscripciones-status').textContent = '';
+            return true;
+        } catch (error) {
+            preinscripcionesLoaded = false;
+            emprendedores = [];
+            document.getElementById('preinscripciones-status').textContent =
+                'No se pudieron cargar todas las preinscripciones. Vuelve a Dashboard o Emprendedores para reintentar.';
+            for (const id of ['stat-total', 'stat-pendientes', 'stat-aprobados', 'stat-rechazados']) {
+                document.getElementById(id).textContent = '—';
+            }
+            document.getElementById('dashboard-table-body').innerHTML = '<tr><td colspan="5">Error al cargar las preinscripciones</td></tr>';
+            document.getElementById('emprendedores-table-body').innerHTML = '<tr><td colspan="9">Error al cargar las preinscripciones</td></tr>';
+            return false;
+        }
+    })();
+    try { return await preinscripcionesRequest; }
+    finally { preinscripcionesRequest = null; }
 }
 
 function escapeHtml(str) {
@@ -142,15 +172,16 @@ async function updateDashboard() {
     document.getElementById('stat-aprobados').textContent = stats.aprobados;
     document.getElementById('stat-rechazados').textContent = stats.rechazados;
     
-    const recentEmprendedores = [...emprendedores].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5);
+    const allEmprendedores = [...emprendedores].sort((a, b) =>
+        new Date(b.created_at) - new Date(a.created_at) || (BigInt(a.id) < BigInt(b.id) ? 1 : BigInt(a.id) > BigInt(b.id) ? -1 : 0));
     const tbody = document.getElementById('dashboard-table-body');
     
-    if (recentEmprendedores.length === 0) {
+    if (allEmprendedores.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #666;">No hay registros aún</td></tr>`;
         return;
     }
     
-    tbody.innerHTML = recentEmprendedores.map(emp => `
+    tbody.innerHTML = allEmprendedores.map(emp => `
         <tr>
             <td>${emp.nombres || '-'}</td>
             <td>${emp.nombre_emprendimiento || '-'}</td>
@@ -162,6 +193,7 @@ async function updateDashboard() {
 }
 
 function renderEmprendedores() {
+    if (!preinscripcionesLoaded) return;
     let filteredData = emprendedores;
     if (currentFilter !== 'todos') filteredData = emprendedores.filter(e => e.estado === currentFilter);
     const tbody = document.getElementById('emprendedores-table-body');
@@ -237,9 +269,7 @@ async function selectStatus(id, newStatus) {
     const statusLabels = { 'aprobado': 'Aprobado', 'pendiente': 'Pendiente', 'rechazado': 'Rechazado' };
     const result = await updateEmprendedor(id, { estado: newStatus });
     if (result.success) {
-        emprendedores = await getEmprendedores();
-        await updateDashboard();
-        renderEmprendedores();
+        if (!await refreshEmprendedores()) return;
         const toastType = { aprobado: 'success', pendiente: 'pending', rechazado: 'rejected' };
         showToast(`Estado cambiado a ${statusLabels[newStatus]}`, toastType[newStatus]);
     } else {
@@ -251,9 +281,7 @@ async function handleDeleteEmprendedor(id) {
     if (!confirm('¿Está seguro de eliminar este registro permanentemente?')) return;
     const result = await deleteEmprendedor(id);
     if (result.success) {
-        emprendedores = await getEmprendedores();
-        await updateDashboard();
-        renderEmprendedores();
+        if (!await refreshEmprendedores()) return;
         showToast('Registro eliminado correctamente', 'rejected');
     } else {
         showToast('Error al eliminar el registro', 'error');
@@ -391,8 +419,11 @@ const statusTitles = {
     rechazado: 'FEXNOVA - Emprendedores Rechazados'
 };
 
-function exportAll() { exportToExcel(emprendedores, 'emprendedores_fexnova_todos', 'FEXNOVA - Todos los Emprendedores'); }
+function exportAll() {
+    if (!preinscripcionesLoaded) { showToast('Carga todas las preinscripciones antes de exportar', 'error'); return; }
+    exportToExcel(emprendedores, 'emprendedores_fexnova_todos', 'FEXNOVA - Todos los Emprendedores'); }
 function exportFiltered(status) {
+    if (!preinscripcionesLoaded) { showToast('Carga todas las preinscripciones antes de exportar', 'error'); return; }
     const filtered = emprendedores.filter(e => e.estado === status);
     exportToExcel(filtered, `emprendedores_fexnova_${status}`, statusTitles[status] || `FEXNOVA - Emprendedores ${status}`);
 }

@@ -332,10 +332,26 @@ async function deleteUser(id) {
 
 async function getEmprendedores() {
     if (!USE_INSFORGE) return _localGetEmprendedores();
-    try {
-        const data = await _insforgeGet('emprendedores', 'select=*&order=created_at.desc');
-        return data || [];
-    } catch { return []; }
+    const records = [];
+    let cursor = null;
+    // Continue even after a short page: the server may enforce a smaller limit.
+    while (true) {
+        const query = new URLSearchParams({
+            select: '*', order: 'created_at.desc,id.desc', limit: '100'
+        });
+        if (cursor) {
+            query.set('or', `(created_at.lt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.lt.${cursor.id}))`);
+        }
+        const page = await _insforgeGet('emprendedores', query.toString());
+        if (!Array.isArray(page)) throw new Error('Respuesta de preinscripciones inválida');
+        if (page.length === 0) return records;
+        const last = page[page.length - 1];
+        if (cursor && String(last.id) === String(cursor.id)) {
+            throw new Error('La consulta de preinscripciones no avanzó');
+        }
+        records.push(...page);
+        cursor = last;
+    }
 }
 
 async function addEmprendedor(empData) {
